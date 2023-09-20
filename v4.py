@@ -14,7 +14,8 @@ def find_words_with_prefixes(file_path, prefixes):
         text = file.read()
         for prefix in prefixes:
             # Используем регулярное выражение для поиска слов с заданным префиксом
-            matches = re.findall(r'\b' + prefix + r'\w*\b', text)
+            matches = re.findall(rf'\b{prefix}\S*\b', text)
+
             found_words.extend(matches)
     return found_words
 
@@ -27,7 +28,7 @@ def search_files_and_write_results(root_folder, prefixes, output_file):
                 found_words = find_words_with_prefixes(file_path, prefixes)
                 if found_words:
                     # Записываем имя файла в результирующий файл
-                    result_file.write(filename + '\n')
+                    result_file.write(file_path[6:] + '/' + filename + '\n')
 
                     # Записываем найденные слова с отступами
                     for word in found_words:
