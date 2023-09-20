@@ -1,6 +1,5 @@
 import os
 
-
 # Функция для анализа содержимого Python файла и поиска зависимостей
 def find_dependencies(file_path):
     dependencies = []
@@ -9,11 +8,10 @@ def find_dependencies(file_path):
             for keyword in ('Common', 'Gen3', 'Model3', 'ModelY', 'Tutorials'):
                 if keyword in line:
                     parts = line.split('"')
-                    if len(parts) >= 2:
-                        dependency = parts[1]
-                        dependencies.append(dependency)
+                    for part in parts:
+                        if part.strip():  # Убедиться, что строка не пустая
+                            dependencies.append(part)
     return dependencies
-
 
 # Функция для создания иерархии зависимостей
 def build_dependency_hierarchy(root_folder, output_file, indent=""):
@@ -30,12 +28,10 @@ def build_dependency_hierarchy(root_folder, output_file, indent=""):
                 for dependency in dependencies:
                     output_file.write(indent + "\t" + dependency + '\n')
 
-
 # Главная функция
 def main(root_folder, output_file_path):
     with open(output_file_path, 'w') as output_file:
         build_dependency_hierarchy(root_folder, output_file)
-
 
 if __name__ == "__main__":
     root_folder = "../../odin_bundle/networks"  # Укажите путь к вашей корневой папке
